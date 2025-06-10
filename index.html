@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QA Manual Portfolio – Lucas Renanda</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --bg: #0d1117;
+            --bg-section: #161b22;
+            --accent: #39aee0;
+            --text-light: #c9d1d9;
+            --text-muted: #8b949e;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        nav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: var(--bg-section);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 100;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .nav-container {
+            width: 90%;
+            max-width: 900px;
+            margin: auto;
+            display: flex;
+            justify-content: flex-end;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-light);
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        /* Section */
+        section {
+            padding: 6rem 0;
+            width: 90%;
+            max-width: 900px;
+            margin: auto;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        header.hero {
+            padding-top: 8rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 2rem;
+            background: var(--accent);
+            color: #fff;
+            padding: 0.6rem 1.4rem;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #2b96bd;
+        }
+
+        /* Skills */
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .skills span {
+            background: var(--bg);
+            padding: 0.5rem 1rem;
+            border: 1px solid #21262d;
+            border-radius: 6px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Projects */
+        .projects {
+            display: grid;
+            gap: 2rem;
+            /* margin-top: 2rem; */
+        }
+
+        .project-card {
+            background: var(--bg-section);
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7);
+        }
+
+        .project-thumb {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 1rem;
+        }
+
+        .project-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .project-content p {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        .project-content a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .project-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .profile-pic {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 3px solid var(--accent);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="#about">Tentang</a>
+            <a href="#skills">Keahlian</a>
+            <a href="#projects">Proyek</a>
+            <a href="#contact">Kontak</a>
+        </div>
+    </nav>
+
+    <header class="hero" id="home">
+        <section>
+            <img src="./assets/myme.png" alt="Foto Profil" class="profile-pic" />
+            <h1>Halo, Saya Lucas Renanda</h1>
+            <p>QA Manual • Tester Web • Problem Solver</p>
+            <a href="#projects" class="btn">Lihat Proyek</a>
+        </section>
+    </header>
+
+
+    <section id="about">
+        <h2>Tentang Saya</h2>
+        <p>Saya adalah QA Manual dan developer yang berfokus pada pengujian fungsional menggunakan metodologi black‑box.
+            Di GitHub saya (deafzero), saya mengembangkan dan menguji berbagai proyek seperti TestingLogin (SQA login
+            feature testing), AplikasiDiskon (UI berbasis CSS), dan countIncome (otomatisasi Python). Saya berpengalaman
+            dalam menyusun test case, melakukan manual testing, menemukan bug kritis seperti typo pesan error, serta
+            menghasilkan laporan pengujian yang komprehensif.</p>
+    </section>
+
+    <section id="skills">
+        <h2>Keahlian & Tools</h2>
+
+        <h3>🧪 QA Manual</h3>
+        <div class="skills">
+            <span>Manual Testing</span>
+            <span>Black-box Testing</span>
+            <span>Functional Testing</span>
+            <span>Regression Testing</span>
+            <span>Test Case Design</span>
+            <span>Bug Reporting</span>
+            <span>Validasi Input</span>
+            <span>Test Documentation</span>
+        </div>
+
+        <h3>🛠️ Tools</h3>
+        <div class="skills">
+            <span>Browser DevTools</span>
+            <span>GitHub Issues</span>
+            <span>Google Docs / Notion</span>
+            <span>Markdown</span>
+        </div>
+
+        <h3>💻 Pemogramman & Framework</h3>
+        <div class="skills">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>Python (Basic)</span>
+            <span>Golang</span>
+            <span>PHP</span>
+            <span>Laravel</span>
+            <span>Go Fiber</span>
+        </div>
+
+        <h3>🔗 Version Control</h3>
+        <div class="skills">
+            <span>Git (Dasar)</span>
+            <span>GitHub Workflow</span>
+        </div>
+
+        <h3>🗣️ Soft Skills</h3>
+        <div class="skills">
+            <span>Detail-Oriented</span>
+            <span>Problem Solving</span>
+            <span>Communication</span>
+            <span>Team Collaboration</span>
+        </div>
+    </section>
+
+
+    <section id="projects">
+        <div class="projects">
+            <div class="project-card">
+                <img src="./assets/foto_testing_login.png" class="project-thumb" alt="TestingLogin" />
+                <div class="project-content">
+                    <h3>Pengujian Sistem Login</h3>
+                    <p>diprogram ini sebenarnya saya buat untuk melakukan sebuah pengetesan terhadap sebuah fitur pada
+                        aplikasi. Karena saya ingin belajar tentang Software Quality Assurance(SQA). Sebuah pengujian
+                        atau pengetesan dilakuakan agar product atau fitur dalam sebuah software tidak terjadi kesalahan
+                        pada tahap production.</p>
+                    <a href="https://github.com/deafzero/TestingLogin" target="_blank">GitHub</a> •
+                    <a href="https://github.com/deafzero/TestingLogin/blob/master/assets/Pengujian_Sistem_Login.pdf"
+                        target="_blank">Laporan PDF</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://raw.githubusercontent.com/deafzero/AplikasiDiskon/refs/heads/master/assets/screenshoot/tampilan_utama.png" class="project-thumb" alt="TestingLogin" />
+                <div class="project-content">
+                    <h3>Aplikasi Diskon</h3>
+                    <p>Aplikasi yang digunakan untuk menangani perhitungan diskon dengan Valid</p>
+                    <a href="https://github.com/deafzero/AplikasiDiskon" target="_blank">GitHub</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="./assets/countincome.png" class="project-thumb" alt="TestingLogin" />
+                <div class="project-content">
+                    <h3>Pendapatan Tiap Minggu</h3>
+                    <p>💰 Calculate my income every week consistently </p>
+                    <a href="https://github.com/deafzero/countIncome" target="_blank">GitHub</a>
+                </div>
+            </div>
+            <!-- Tambahkan proyek lain -->
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Kontak</h2>
+        <p>Email: <a href="lucasrenandra@gmail.com">lucasrenandra@gmail.com</a></p>
+        <p>
+            <a href="https://github.com/deafzero" target="_blank">GitHub</a>
+        </p>
+    </section>
+
+    <footer>
+        <p>© <span id="year"></span> Lucas Renanda. Portofolio QA Manual.</p>
+    </footer>
+
+    <script>
+        // Reveal sections on scroll
+        const sections = document.querySelectorAll('section');
+        const reveal = () => {
+            const triggerBottom = window.innerHeight * 0.85;
+            sections.forEach(sec => {
+                const top = sec.getBoundingClientRect().top;
+                if (top < triggerBottom) sec.classList.add('visible');
+            });
+        };
+        window.addEventListener('scroll', reveal);
+        reveal();
+
+        // Inject current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>
