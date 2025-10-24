@@ -1,346 +1,2046 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>QA Manual Portfolio – Lucas Renanda</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Lucas Renanda</title>
+    <link rel="shortcut icon" href="./assets/myme.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-        :root {
-            --bg: #0d1117;
-            --bg-section: #161b22;
-            --accent: #39aee0;
-            --text-light: #c9d1d9;
-            --text-muted: #8b949e;
-            --ease: cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #0a0a0a;
+            --secondary: #1a1a1a;
+            --accent: #2563eb;
+            --accent-light: #3b82f6;
+            --background: #ffffff;
+            --surface: #f8f9fa;
+            --surface-elevated: #ffffff;
+            --text-primary: #0a0a0a;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode {
+            --primary: #ffffff;
+            --secondary: #f3f4f6;
+            --background: #0a0a0a;
+            --surface: #1a1a1a;
+            --surface-elevated: #262626;
+            --text-primary: #ffffff;
+            --text-secondary: #d1d5db;
+            --text-muted: #9ca3af;
+            --border: #374151;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Smooth Scrolling */
         html {
             scroll-behavior: smooth;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text-light);
-            line-height: 1.6;
+        /* Custom Selection */
+        ::selection {
+            background: var(--accent);
+            color: white;
         }
 
-        /* Navbar */
-        nav {
-            position: sticky;
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Animated Background */
+        .bg-pattern {
+            position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
-            background: var(--bg-section);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            z-index: 100;
-            border-bottom: 1px solid #21262d;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: 
+                radial-gradient(circle at 20% 80%, var(--accent) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, var(--accent) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, var(--accent) 0%, transparent 50%);
+            animation: patternMove 20s ease-in-out infinite;
         }
 
-        .nav-container {
-            width: 90%;
-            max-width: 900px;
-            margin: auto;
+        @keyframes patternMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -20px) rotate(120deg); }
+            66% { transform: translate(20px, -10px) rotate(240deg); }
+        }
+
+        /* Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode header.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
             gap: 2rem;
         }
 
-        nav a {
-            color: var(--text-light);
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;  
             font-weight: 500;
-            text-decoration: none;
-            transition: color 0.3s;
+            position: relative;
+            transition: var(--transition);
+            padding: 0.5rem 0;
         }
 
-        nav a:hover {
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
             color: var(--accent);
         }
 
-        /* Section */
-        section {
-            padding: 6rem 0;
-            width: 90%;
-            max-width: 900px;
-            margin: auto;
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: rotate(180deg);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 20px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: var(--transition);
+            transform-origin: center;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+            transform: scale(0);
         }
 
-        section.visible {
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Mobile Menu - Floating Overlay */
+        .mobile-menu {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            background: var(--surface-elevated);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            padding: 2rem;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        body.dark-mode .mobile-menu {
+            background: var(--surface);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .mobile-menu.active {
+            transform: translate(-50%, -50%) scale(1);
             opacity: 1;
-            transform: translateY(0);
+            visibility: visible;
         }
 
-        header.hero {
-            padding-top: 8rem;
-            text-align: center;
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .mobile-menu-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .mobile-menu-close {
+            width: 36px;
+            height: 36px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .mobile-menu-close:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            transition: var(--transition);
+            display: block;
+            font-size: 1rem;
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            background: var(--surface);
+            color: var(--accent);
+            transform: translateX(8px);
+        }
+
+        .mobile-menu-footer {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .mobile-social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .mobile-social-link {
+            width: 40px;
+            height: 40px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .mobile-social-link:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 998;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--surface);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            animation: slideInLeft 1s ease 0.7s both;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1rem;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            animation: slideInLeft 1s ease 0.9s both;
         }
 
-        .hero p {
-            font-size: 1.2rem;
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: slideInLeft 1s ease 1.1s both;
+        }
+
+        .hero-description {
             color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            animation: slideInLeft 1s ease 1.3s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: slideInLeft 1s ease 1.5s both;
         }
 
         .btn {
-            display: inline-block;
-            margin-top: 2rem;
-            background: var(--accent);
-            color: #fff;
-            padding: 0.6rem 1.4rem;
-            border-radius: 6px;
-            transition: background 0.3s;
-        }
-
-        .btn:hover {
-            background: #2b96bd;
-        }
-
-        /* Skills */
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .skills span {
-            background: var(--bg);
-            padding: 0.5rem 1rem;
-            border: 1px solid #21262d;
-            border-radius: 6px;
-            color: var(--text-light);
-            font-weight: 500;
-        }
-
-        /* Projects */
-        .projects {
-            display: grid;
-            gap: 2rem;
-            /* margin-top: 2rem; */
-        }
-
-        .project-card {
-            background: var(--bg-section);
-            border: 1px solid #21262d;
+            padding: 0.875rem 2rem;
             border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
         }
 
-        .project-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7);
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
         }
 
-        .project-thumb {
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface);
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .hero-image {
+            position: relative;
+            opacity: 0;
+            transform: scale(0.9);
+            animation: fadeInScale 1s ease 1s forwards;
+        }
+
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            /* background: var(--surface); */
+            padding: 0.5rem;
+        }
+        
+        .hero-image img {
             width: 100%;
-            height: 400px;
-            object-fit: cover;
+            height: auto;
+            display: block;
+            transition: var(--transition-slow);
         }
 
-        .project-content {
-            padding: 1rem;
+        .hero-image:hover img {
+            transform: scale(1.05);
         }
 
-        .project-content h3 {
-            margin-bottom: 0.5rem;
-            color: var(--text-light);
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
         }
 
-        .project-content p {
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 5%;
+            animation-delay: 2s;
+        }
+
+        .shape-3 {
+            width: 80px;
+            height: 80px;
+            top: 50%;
+            right: 5%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Sections - Base Style */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .section-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: var(--transition-slow);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
             margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+        }
+
+        /* About Section - Fixed Centering */
+        .about {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 3rem !important;
+            margin: 2rem auto !important;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        .about-image.visible {
+            opacity: 1;
+            transform: translateX(0);
+            transition: var(--transition-slow);
+            transition-delay: 0.2s;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            /* box-shadow: var(--shadow-lg); */
+        }
+
+        .about-image img {
+            width: 100%;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-content {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        .about-content.visible {
+            opacity: 1;
+            transform: translateX(0);
+            transition: var(--transition-slow);
+            transition-delay: 0.4s;
+        }
+
+        .about-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .about-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--surface-elevated);
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .info-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .info-text {
+            flex: 1;
+        }
+
+        .info-label {
+            font-size: 0.875rem;
             color: var(--text-muted);
         }
 
-        .project-content a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 500;
+        .info-value {
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .project-content a:hover {
-            text-decoration: underline;
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--surface-elevated);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .skill-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: var(--transition-slow);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .skill-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .skill-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .skill-level {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .skill-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 4px;
+            width: 0;
+            transition: width 2s ease;
+        }
+
+        .skill-percentage {
+            font-weight: 600;
+            color: var(--accent);
+            min-width: 40px;
+        }
+
+        /* Projects Section - Fixed Centering */
+        .projects {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 3rem !important;
+            margin: 2rem auto !important;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--surface-elevated);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: var(--transition-slow);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .project-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--surface);
+            color: var(--text-secondary);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            border: 1px solid var(--border);
+        }
+
+        .project-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .project-link:hover {
+            gap: 1rem;
+        }
+
+        /* Contact Section - Enhanced Without Form */
+        .contact {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 4rem !important;
+            margin: 2rem auto !important;
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .contact-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .contact-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            background: var(--surface-elevated);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: var(--transition);
+            border: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .contact-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: var(--transition-slow);
+        }
+
+        .contact-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent);
+        }
+
+        .contact-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover .contact-icon-wrapper {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .contact-label {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-value {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .contact-value::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .contact-value:hover {
+            color: var(--accent);
+        }
+
+        .contact-value:hover::after {
+            width: 100%;
+        }
+
+        .contact-action {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .contact-btn {
+            padding: 0.625rem 1.25rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .contact-social {
+            width: 36px;
+            height: 36px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .contact-social:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
         }
 
         /* Footer */
         footer {
+            background: var(--surface);
+            padding: 3rem 2rem;
             text-align: center;
-            padding: 4rem 0;
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
         }
 
-        .profile-pic {
-            width: 140px;
-            height: 140px;
-            object-fit: cover;
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 44px;
+            height: 44px;
+            background: var(--surface-elevated);
             border-radius: 50%;
-            margin-bottom: 1rem;
-            border: 3px solid var(--accent);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: var(--accent);
+            z-index: 10000;
+            transition: width 0.1s ease;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: -100px;
+            right: 2rem;
+            background: var(--accent);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            transition: bottom 0.3s ease;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .notification.show {
+            bottom: 2rem;
+        }
+
+        /* Responsive Design - Improved Desktop Breakpoints */
+        @media (max-width: 1200px) {
+            .about-grid {
+                gap: 2rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .about-grid {
+                gap: 1.5rem;
+            }
+            
+            .about-content h3 {
+                font-size: 1.75rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .hero {
+                padding-top: 6rem;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-badge {
+                margin-bottom: 1.5rem;
+                margin-top: 1rem;
+                display: inline-flex;
+                align-self: center;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-info {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .about,
+            .projects,
+            .contact {
+                margin: 1rem auto !important;
+                padding: 2rem !important;
+            }
+
+            nav {
+                padding: 1rem 1rem;
+            }
+
+            .mobile-menu {
+                width: 95%;
+                max-height: 90vh;
+            }
+        }
+
+        /* Loading */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
-
 <body>
-    <nav>
-        <div class="nav-container">
-            <a href="#about">Tentang</a>
-            <a href="#skills">Keahlian</a>
-            <a href="#projects">Proyek</a>
-            <a href="#contact">Kontak</a>
-        </div>
-    </nav>
+    <!-- Animated Background Pattern -->
+    <div class="bg-pattern"></div>
 
-    <header class="hero" id="home">
-        <section>
-            <img src="./assets/myme.png" alt="Foto Profil" class="profile-pic" />
-            <h1>Halo, Saya Lucas Renanda</h1>
-            <p>QA Manual • Tester Web • Problem Solver</p>
-            <a href="#projects" class="btn">Lihat Proyek</a>
-        </section>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <header id="navbar">
+        <nav>
+            <a href="#home" class="logo">Lucas Renanda</a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Beranda</a></li>
+                <li><a href="#about" class="nav-link">Tentang</a></li>
+                <li><a href="#skills" class="nav-link">Keahlian</a></li>
+                <li><a href="#projects" class="nav-link">Portfolio</a></li>
+                <li><a href="#contact" class="nav-link">Kontak</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle">🌙</button>
+                <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
     </header>
 
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <span class="mobile-menu-logo">Menu</span>
+            <div class="mobile-menu-close" id="mobileMenuClose">✕</div>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="#home" class="nav-link active">Beranda</a></li>
+            <li><a href="#about" class="nav-link">Tentang</a></li>
+            <li><a href="#skills" class="nav-link">Keahlian</a></li>
+            <li><a href="#projects" class="nav-link">Portfolio</a></li>
+            <li><a href="#contact" class="nav-link">Kontak</a></li>
+        </ul>
+        <div class="mobile-menu-footer">
+            <div class="mobile-social-links">
+                <a href="https://wa.me/085124756667" class="mobile-social-link" target="_blank"><img src="./assets/logo-whatsapp.svg" alt="whatsapp" width="30px" height="30px" srcset=""></a>
+                <a href="https://github.com/deafzero/" class="mobile-social-link" target="_blank"><img src="./assets/logo-github.svg" alt="github" width="30px" height="30px" srcset=""></a>
+                <a href="https://www.tiktok.com/@rnnd216x" class="mobile-social-link" target="_blank"><img src="./assets/logo-tiktok.svg" alt="tiktok" width="30px" height="30px" srcset=""></a>
+                <a href="https://www.instagram.com/rnnd216x" class="mobile-social-link" target="_blank"><img src="./assets/logo-instagram.svg" alt="instagram" width="30px" height="30px" srcset=""></a>
+                <a href="https://www.facebook.com/luckasr.r" class="mobile-social-link" target="_blank"><img src="./assets/logo-facebook.svg" alt="facebook" width="30px" height="30px" srcset=""></a>
+            
+                <a href="/" class="social-link">🔗</a>
+            </div>
+        </div>
+    </div>
 
-    <section id="about">
-        <h2>Tentang Saya</h2>
-        <p>Saya adalah QA Manual dan developer yang berfokus pada pengujian fungsional menggunakan metodologi black‑box.
-            Di GitHub saya (deafzero), saya mengembangkan dan menguji berbagai proyek seperti TestingLogin (SQA login
-            feature testing), AplikasiDiskon (UI berbasis CSS), dan countIncome (otomatisasi Python). Saya berpengalaman
-            dalam menyusun test case, melakukan manual testing, menemukan bug kritis seperti typo pesan error, serta
-            menghasilkan laporan pengujian yang komprehensif.</p>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span>👋</span>
+                    <span>Halo, Saya Lucas Renanda</span>
+                </div>
+                <h1>QA <span class="gradient-text">Engineer</span></h1>
+                <p class="hero-subtitle">Terampil dalam identifikasi dan pelacakan cacat menggunakan berbagai tools, serta mampu berkomunikasi dengan efektif.</p>
+                <p class="hero-description">
+                    Behind every successful product, there’s a QA who refused to ignore a single detail
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        Lihat Portfolio
+                        <span>→</span>
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        Hubungi Saya
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-image-wrapper">
+                    <img src="./assets/tentang.png" alt="Profile">
+                </div>
+                <div class="floating-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                </div>
+            </div>
+        </div>
     </section>
 
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-header">
+            <h2 class="section-title">Tentang Saya</h2>
+            <p class="section-subtitle">Penguji perangkat lunak yang mengutamakan akurasi, efisiensi, dan keandalan sistem.</p>
+        </div>
+        <div class="about-grid">
+            <div class="about-image">
+                <div class="about-image-wrapper">
+                    <img src="./assets/gambar-3.png" alt="About">
+                </div>
+            </div>
+            <div class="about-content">
+                <h3>QA Engineer</h3>
+                <p>
+                    QA Engineer dengan keahlian dalam manual dan automation testing menggunakan Python serta framework Playwright. Terbiasa merancang dan menjalankan skenario pengujian yang efisien untuk memastikan kualitas, performa, dan stabilitas perangkat lunak. Dikenal sebagai profesional yang cepat, teliti, dan terampil dalam menyelesaikan proyek dengan hasil optimal.
+                </p>
+                <p>
+                    Saya percaya bahwa kualitas perangkat lunak bukan hanya hasil dari pengujian yang baik, tetapi juga dari dedikasi, ketelitian, dan kolaborasi yang solid antar tim. Oleh karena itu, saya selalu berusaha menjadi penghubung yang kuat antara pengembang dan pengguna akhir melalui proses pengujian yang cermat dan transparan.
+                </p>
+                <div class="about-info">
+                    <div class="info-item">
+                        <div class="info-icon">📍</div>
+                        <div class="info-text">
+                            <div class="info-label">Lokasi</div>
+                            <div class="info-value">Nganjuk, Indonesia</div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">🎓</div>
+                        <div class="info-text">
+                            <div class="info-label">Pendidikan</div>
+                            <div class="info-value">SMK AL - KHOIRIYAH BARON</div>
+                        </div>
+                    </div>
+                    <!-- <div class="info-item">
+                        <div class="info-icon">💼</div>
+                        <div class="info-text">
+                            <div class="info-label">Pengalaman</div>
+                            <div class="info-value">5+ Tahun</div>
+                        </div>
+                    </div> -->
+                    <div class="info-item">
+                        <div class="info-icon">🏆</div>
+                        <div class="info-text">
+                            <div class="info-label">Proyek</div>
+                            <div class="info-value">6 Selesai</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
     <section id="skills">
-        <h2>Keahlian & Tools</h2>
-
-        <h3>🧪 QA Manual</h3>
-        <div class="skills">
-            <span>Manual Testing</span>
-            <span>Black-box Testing</span>
-            <span>Functional Testing</span>
-            <span>Regression Testing</span>
-            <span>Test Case Design</span>
-            <span>Bug Reporting</span>
-            <span>Validasi Input</span>
-            <span>Test Documentation</span>
+        <div class="section-header">
+            <h2 class="section-title">Keahlian Teknis</h2>
+            <p class="section-subtitle">Teknologi yang saya kuasai</p>
         </div>
-
-        <h3>🛠️ Tools</h3>
-        <div class="skills">
-            <span>Browser DevTools</span>
-            <span>GitHub Issues</span>
-            <span>Google Docs / Notion</span>
-            <span>Markdown</span>
-        </div>
-
-        <h3>💻 Pemogramman & Framework</h3>
-        <div class="skills">
-            <span>HTML</span>
-            <span>CSS</span>
-            <span>Python (Basic)</span>
-            <span>Golang</span>
-            <span>PHP</span>
-            <span>Laravel</span>
-            <span>Go Fiber</span>
-        </div>
-
-        <h3>🔗 Version Control</h3>
-        <div class="skills">
-            <span>Git (Dasar)</span>
-            <span>GitHub Workflow</span>
-        </div>
-
-        <h3>🗣️ Soft Skills</h3>
-        <div class="skills">
-            <span>Detail-Oriented</span>
-            <span>Problem Solving</span>
-            <span>Communication</span>
-            <span>Team Collaboration</span>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">🔎</div>
+                    <div class="skill-title">Manual & Automation Testing</div>
+                </div>
+                <p class="skill-description">
+                    Playwright
+                </p>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="100%"></div>
+                    </div>
+                    <span class="skill-percentage">100%</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">🧪</div>
+                    <div class="skill-title">API & UI Testing</div>
+                </div>
+                <p class="skill-description">
+                    Playwright, Postman
+                </p>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="100%"></div>
+                    </div>
+                    <span class="skill-percentage">100%</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">📋</div>
+                    <div class="skill-title">Test Case Design</div>
+                </div>
+                <p class="skill-description">
+                    TestRail, Excel, Google Sheets
+                </p>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="100%"></div>
+                    </div>
+                    <span class="skill-percentage">100%</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">🕵🏻‍♂️</div>
+                    <div class="skill-title">Bug Reporting</div>
+                </div>
+                <p class="skill-description">
+                    Jira, Trello
+                </p>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="100%"></div>
+                    </div>
+                    <span class="skill-percentage">100%</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">🧑‍💻</div>
+                    <div class="skill-title">Scripting</div>
+                </div>
+                <p class="skill-description">
+                    Python, Php, JavaScript, Go, Java 
+                </p>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="100%"></div>
+                    </div>
+                    <span class="skill-percentage">100%</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">💡</div>
+                    <div class="skill-title">Analytical Thinking</div>
+                </div>
+                <p class="skill-description">
+                    Test analysis, root cause identification
+                </p>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="100%"></div>
+                    </div>
+                    <span class="skill-percentage">100%</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">❓</div>
+                    <div class="skill-title">Problem Solving</div>
+                </div>
+                <p class="skill-description">
+                    Debugging, issue isolation
+                </p>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="100%"></div>
+                    </div>
+                    <span class="skill-percentage">100%</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">🛠️</div>
+                    <div class="skill-title">Git</div>
+                </div>
+                <p class="skill-description">
+                    Github
+                </p>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="100%"></div>
+                    </div>
+                    <span class="skill-percentage">100%</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-header">
+                    <div class="skill-icon">🤝</div>
+                    <div class="skill-title">Kolaborasi Tim</div>
+                </div>
+                <p class="skill-description">
+                    Agile, Scrum
+                </p>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="100%"></div>
+                    </div>
+                    <span class="skill-percentage">100%</span>
+                </div>
+            </div>
         </div>
     </section>
 
-
-    <section id="projects">
-        <div class="projects">
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="section-header">
+            <h2 class="section-title">Portfolio</h2>
+            <p class="section-subtitle">Proyek-proyek terbaru yang telah saya kerjakan</p>
+        </div>
+        <div class="projects-grid">
             <div class="project-card">
-                <img src="./assets/foto_testing_login.png" class="project-thumb" alt="TestingLogin" />
+                <div class="project-image">
+                    <img src="./assets/project/countincome.png" alt="foto proyek count income">
+                </div>
                 <div class="project-content">
-                    <h3>Pengujian Sistem Login</h3>
-                    <p>diprogram ini sebenarnya saya buat untuk melakukan sebuah pengetesan terhadap sebuah fitur pada
-                        aplikasi. Karena saya ingin belajar tentang Software Quality Assurance(SQA). Sebuah pengujian
-                        atau pengetesan dilakuakan agar product atau fitur dalam sebuah software tidak terjadi kesalahan
-                        pada tahap production.</p>
-                    <a href="https://github.com/deafzero/TestingLogin" target="_blank">GitHub</a> •
-                    <a href="https://github.com/deafzero/TestingLogin/blob/master/assets/Pengujian_Sistem_Login.pdf"
-                        target="_blank">Laporan PDF</a>
+                    <h3 class="project-title">Count Income</h3>
+                    <p class="project-description">
+                        Menghitung laporan pendapatan di tiap minggu.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                    </div>
+                    <a href="https://github.com/deafzero/countIncome" class="project-link">
+                        Lihat Detail →
+                    </a>
                 </div>
             </div>
             <div class="project-card">
-                <img src="https://raw.githubusercontent.com/deafzero/AplikasiDiskon/refs/heads/master/assets/screenshoot/tampilan_utama.png" class="project-thumb" alt="TestingLogin" />
+                <div class="project-image">
+                    <img src="https://raw.githubusercontent.com/deafzero/AplikasiDiskon/refs/heads/master/assets/screenshoot/tampilan_utama.png" alt="foto aplikasi diskon ">
+                </div>
                 <div class="project-content">
-                    <h3>Aplikasi Diskon</h3>
-                    <p>Aplikasi yang digunakan untuk menangani perhitungan diskon dengan Valid</p>
-                    <a href="https://github.com/deafzero/AplikasiDiskon" target="_blank">GitHub</a>
+                    <h3 class="project-title">Discount App</h3>
+                    <p class="project-description">
+                        Aplikasi yang digunakan untuk menangani perhitungan diskon dengan Valid
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span> 
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                        
+                    </div>
+                    <a href="https://github.com/deafzero/AplikasiDiskon" class="project-link">
+                        Lihat Detail →
+                    </a>
                 </div>
             </div>
             <div class="project-card">
-                <img src="./assets/countincome.png" class="project-thumb" alt="TestingLogin" />
+                <div class="project-image">
+                    <img src="./assets/project/test_login.png" alt="Github testing login">
+                </div>
                 <div class="project-content">
-                    <h3>Pendapatan Tiap Minggu</h3>
-                    <p>💰 Calculate my income every week consistently </p>
-                    <a href="https://github.com/deafzero/countIncome" target="_blank">GitHub</a>
+                    <h3 class="project-title">Testing Login</h3>
+                    <p class="project-description">
+                        Melakukan pengujian pada fitur <b>Login</b>.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">Go</span>
+                        <span class="tag">Fiber Framework</span>
+                        <span class="tag">Air Hot Reload</span>
+                        <span class="tag">HTML</span> 
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                    <a href="https://github.com/deafzero/TestingLogin/" class="project-link">
+                        Lihat Detail →
+                    </a>
                 </div>
             </div>
-            <!-- Tambahkan proyek lain -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="./assets/project/manual_testing.png" alt="Sauce labs page">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Ngetest Web - Manual Testing</h3>
+                    <p class="project-description">
+                        Proyek pengujian manual pada situs E-commerce demo Sauce Labs.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">Test Plan</span>
+                        <span class="tag">Test Case</span>
+                        <span class="tag">Test Report</span>
+                        
+                    </div>
+                    <a href="https://github.com/deafzero/NgetestWeb/" class="project-link">
+                        Lihat Detail →
+                    </a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="https://raw.githubusercontent.com/deafzero/AssertLogin/refs/heads/main/document/lampiran.png" alt="Hasil test automation">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Assert Login - Automation Testing</h3>
+                    <p class="project-description">
+                        proyek automation menggunakan <b>Python</b> dan <b>Playwright</b> untuk menguji fungsionalitas fitur <b>Login</b>
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Playwright Framework</span>
+                        
+                    </div>
+                    <a href="https://github.com/deafzero/NgetestWeb/" class="project-link">
+                        Lihat Detail →
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
+    <!-- Contact Section - Enhanced Without Form -->
     <section id="contact">
-        <h2>Kontak</h2>
-        <p>Email: <a href="lucasrenandra@gmail.com">lucasrenandra@gmail.com</a></p>
-        <p>
-            <a href="https://github.com/deafzero" target="_blank">GitHub</a>
-        </p>
+        <div class="contact-header">
+            <h2 class="contact-title">Hubungi Saya</h2>
+            <p class="contact-subtitle">Mari terhubung dan diskusikan proyek Anda</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div class="contact-icon-wrapper">
+                    <span class="contact-icon">📧</span>
+                </div>
+                <div class="contact-label">Email</div>
+                <div class="contact-value" onclick="copyToClipboard('lucasrenandra@gmail.com')">lucasrenandra@gmail.com</div>
+                <div class="contact-action">
+                    <button class="contact-btn" onclick="copyToClipboard('lucasrenandra@gmail.com')">Salin</button>
+                    <a href="mailto:lucasrenandra@gmail.com" class="contact-social">✉️</a>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon-wrapper">
+                    <span class="contact-icon">📱</span>
+                </div>
+                <div class="contact-label">Telepon</div>
+                <div class="contact-value" onclick="copyToClipboard('+62 851 2475 6667')">+62 851 2475 6667</div>
+                <div class="contact-action">
+                    <button class="contact-btn" onclick="copyToClipboard('+62 851 2475 6667')">Salin</button>
+                    <a href="tel:+6281234567890" class="contact-social">📞</a>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon-wrapper">
+                    <span class="contact-icon">📍</span>
+                </div>
+                <div class="contact-label">Lokasi</div>
+                <div class="contact-value" onclick="copyToClipboard('Nganjuk, Indonesia')">Nganjuk, Indonesia</div>
+                <div class="contact-action">
+                    <button class="contact-btn" onclick="copyToClipboard('Nganjuk, Indonesia')">Salin</button>
+                    <a href="https://maps.google.com/?q=Nganjuk" target="_blank" class="contact-social">🗺️</a>
+                </div>
+            </div>
+        </div>
     </section>
 
+    <!-- Footer -->
     <footer>
-        <p>© <span id="year"></span> Lucas Renanda. Portofolio QA Manual.</p>
+        <div class="social-links">
+            <a href="https://wa.me/085124756667" class="social-link" target="_blank"><img src="./assets/logo-whatsapp.svg" alt="whatsapp" width="30px" height="30px" srcset=""></a>
+            <a href="https://github.com/deafzero/" class="social-link" target="_blank"><img src="./assets/logo-github.svg" alt="github" width="30px" height="30px" srcset=""></a>
+            <a href="https://www.tiktok.com/@rnnd216x" class="social-link" target="_blank"><img src="./assets/logo-tiktok.svg" alt="tiktok" width="30px" height="30px" srcset=""></a>
+            <a href="https://www.instagram.com/rnnd216x" class="social-link" target="_blank"><img src="./assets/logo-instagram.svg" alt="instagram" width="30px" height="30px" srcset=""></a>
+            <a href="https://www.facebook.com/luckasr.r" class="social-link" target="_blank"><img src="./assets/logo-facebook.svg" alt="facebook" width="30px" height="30px" srcset=""></a>
+            
+            <a href="/" class="social-link">🔗</a>
+        </div>
+        <p class="footer-text">
+            © 2025 Lucas Renanda. All rights reserved.
+        </p>
     </footer>
 
-    <script>
-        // Reveal sections on scroll
-        const sections = document.querySelectorAll('section');
-        const reveal = () => {
-            const triggerBottom = window.innerHeight * 0.85;
-            sections.forEach(sec => {
-                const top = sec.getBoundingClientRect().top;
-                if (top < triggerBottom) sec.classList.add('visible');
-            });
-        };
-        window.addEventListener('scroll', reveal);
-        reveal();
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <span>✓</span>
+        <span id="notificationText">Tersalin!</span>
+    </div>
 
-        // Inject current year
-        document.getElementById('year').textContent = new Date().getFullYear();
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 800);
+        });
+
+        // Copy to Clipboard Function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Tersalin ke clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // Show Notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Mobile Menu Management
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const overlay = document.getElementById('overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            overlay.classList.add('active');
+            mobileMenuToggle.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            mobileMenuToggle.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Event Listeners for Mobile Menu
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (mobileMenu.classList.contains('active')) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        });
+
+        mobileMenuClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeMobileMenu();
+        });
+
+        overlay.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeMobileMenu();
+        });
+
+        // Close mobile menu when clicking on navigation links
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const target = document.querySelector(targetId);
+                
+                if (target) {
+                    closeMobileMenu();
+                    setTimeout(() => {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 300);
+                }
+            });
+        });
+
+        // Sync active states between desktop and mobile navigation
+        function updateActiveLinks() {
+            const allNavLinks = document.querySelectorAll('.nav-link');
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            allNavLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            themeToggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+
+            // Navbar scroll effect
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Update active navigation links
+            updateActiveLinks();
+        });
+
+        // Active Navigation Link for desktop
+        const navLinks = document.querySelectorAll('.nav-menu .nav-link');
+        const sections = document.querySelectorAll('section[id]');
+
+        // Smooth Scrolling for desktop navigation
+        document.querySelectorAll('.nav-menu a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate skill bars
+                    if (entry.target.classList.contains('skill-card')) {
+                        const progressBar = entry.target.querySelector('.skill-progress');
+                        if (progressBar) {
+                            const width = progressBar.getAttribute('data-width');
+                            setTimeout(() => {
+                                progressBar.style.width = width;
+                            }, 200);
+                        }
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.section-header, .about-image, .about-content, .skill-card, .project-card, .contact-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroContent = document.querySelector('.hero-content');
+            const heroImage = document.querySelector('.hero-image');
+            
+            if (heroContent && heroImage) {
+                heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+                heroImage.style.transform = `translateY(${scrolled * 0.2}px)`;
+            }
+        });
+
+        // Dynamic typing effect for hero badge
+        const badges = ['👋 Halo, Saya Lucas Renanda', '💻 QA Enginner', '🚀 Fast Analytics', '✨ Creative Thinker'];
+        let badgeIndex = 0;
+        const heroBadge = document.querySelector('.hero-badge span:last-child');
+
+        setInterval(() => {
+            badgeIndex = (badgeIndex + 1) % badges.length;
+            heroBadge.style.opacity = '0';
+            
+            setTimeout(() => {
+                heroBadge.textContent = badges[badgeIndex];
+                heroBadge.style.opacity = '1';
+            }, 300);
+        }, 3000);
+
+        // Prevent body scroll when mobile menu is open
+        function preventBodyScroll() {
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Add keyboard support for mobile menu
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
     </script>
 </body>
-
 </html>
